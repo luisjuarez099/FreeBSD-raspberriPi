@@ -100,3 +100,70 @@ Estas son las configuraciones que se llevan acabo para poder crear usuarios y da
 ![adduser](https://github.com/luisjuarez099/FreeBSD-raspberriPi/assets/83623972/4cd4cb4f-43dc-47ce-b06d-709fdc141e8c)
 
 
+## Instalar mariadbxxx-server en FreeBSD
+
+### Buscar maraidb para la instalacion: 
+Buscaremos por medio del los paquetes (pkg)  para instalar mariadbxxx-server
+
+```bash
+  pkg search mariadb
+```
+![marisb-search](https://github.com/luisjuarez099/FreeBSD-raspberriPi/assets/83623972/7d13afea-4c8c-4395-b291-47d8df88d673)
+
+### Instalacion 
+Una vez visto los paquetes disponibles lo que vamos a hacer es seleccionar ```mariadb105-server``` esta es la version que queremos instalar 
+para llevar acabo la instalacion por medio del administrador de paquetes ```pkg``` para esto vamos a ejecutar el comando:
+
+```bash
+  pkg install mariadb105-server
+```
+Aguardamos un momento a que se instale...Al finalizar muestra un mensaje como este: 
+
+![mariadb-install](https://github.com/luisjuarez099/FreeBSD-raspberriPi/assets/83623972/94e637b5-c70c-49d4-98a1-37d418159680)
+
+
+### Permisos a mysql
+El comando ```chown mysql /var/run/mysql``` se utiliza para cambiar el propietario del directorio /var/run/mysql al usuario mysql.
+
+Cuando ejecutas chown mysql /var/run/mysql, estás asignando el control del directorio /var/run/mysql al usuario mysql. Esto es útil en entornos donde es importante que el servidor MySQL tenga acceso y control sobre sus propios archivos temporales, como los sockets utilizados para la comunicación interna.
+
+Este es el comando que vamos a ejecutar
+```bash
+  chown mysql /var/run/mysql
+```
+
+### Mysql a boot del sistema.
+
+Al ejecutar ```sudo sysrc mysql_enable=YES```, el sistema modificará automáticamente el archivo ```/etc/rc.conf``` para asegurarse de que MySQL se inicie automáticamente cada vez que el sistema se inicie o se reinicie. Esto simplifica la administración del servicio, ya que no es necesario iniciar MySQL manualmente después de cada reinicio del sistema.
+
+Comando:
+
+```bash
+sudo sysrc mysql_enable=yes
+```
+
+### Iniciamos el sistema
+
+Ya para arrancar el sistema, lo que vamos a hace es correr el siguinte comando 
+
+```bash
+service mysql-server start
+```
+y damos un ```status``` para conocer el PID donde se esta ejecutando
+
+```bash
+service mysql-server status
+```
+![mariadb-pid](https://github.com/luisjuarez099/FreeBSD-raspberriPi/assets/83623972/a19e3756-896f-4830-acec-729497b44d4c)
+
+
+### Comprobamos que exista el acceso a local host 
+
+```bash
+sockstat -4 -6 | grep 3306
+```
+![maria-localhost](https://github.com/luisjuarez099/FreeBSD-raspberriPi/assets/83623972/cf31e521-1853-40c1-94c5-f6d85d0ccf9d)
+
+
+
+
