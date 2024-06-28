@@ -100,6 +100,50 @@ Estas son las configuraciones que se llevan acabo para poder crear usuarios y da
 ![adduser](https://github.com/luisjuarez099/FreeBSD-raspberriPi/assets/83623972/4cd4cb4f-43dc-47ce-b06d-709fdc141e8c)
 
 
+agregado el usuario vamos a darle los persmiso de super-user, para eso nos cambiamos a modo root 
+
+```bash
+su -
+```
+
+Ya una vez dentro vamos a instala ```sudo```
+
+```bash
+pkg install sudo
+```
+#### Configuramos sudo para el usuario
+
+Vamos a editar el archivo ```sudoers``` por medio de ```visudo``` para configurar los permisos necesarios
+
+```bash
+visudo
+```
+Indica los root privilegios, siendo diferentes dependiendo como van procediendo las lineas 
+
+![root-priv](https://github.com/luisjuarez099/FreeBSD-raspberriPi/assets/83623972/bc8ddff9-14b6-49e5-9527-f8de7f07d84c)
+
+Vamoa a agregar a nuestro usuario con los permisos necesarios para poder ejecutarlo por medio de ```sudo```
+
+```bash
+miprueba ALL=(ALL:ALL) ALL
+```
+> [!NOTE]
+> Alternativamente, si deseas otorgar permisos de sudo a todos los usuarios en el grupo wheel, añade o descomenta la siguiente línea
+>  ```# %wheel ALL=(ALL:ALL) ALL``` presionando la letra ```x```
+
+### Probar sudo cambiando de cuenta
+
+```bash
+su - miprueba
+```
+
+![su-user](https://github.com/luisjuarez099/FreeBSD-raspberriPi/assets/83623972/3af52e3d-2558-4dfc-8320-6454c7f19192)
+
+Excelente! Siguiendo estos pasos, deberías poder instalar y configurar sudo en tu Raspberry Pi con FreeBSD para un Usuario.
+
+<hr>
+
+
 ## Instalar mariadbxxx-server en FreeBSD
 
 ### Buscar maraidb para la instalacion: 
@@ -165,5 +209,9 @@ sockstat -4 -6 | grep 3306
 ![maria-localhost](https://github.com/luisjuarez099/FreeBSD-raspberriPi/assets/83623972/cf31e521-1853-40c1-94c5-f6d85d0ccf9d)
 
 
+### Ingresamos a mysql (mariadb) 
 
+```bash
+sudo mysql
+```
 
