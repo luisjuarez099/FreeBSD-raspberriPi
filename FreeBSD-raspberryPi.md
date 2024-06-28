@@ -217,3 +217,29 @@ sockstat -4 -6 | grep 3306
 sudo mysql
 ```
 
+![mysql_sudo](https://github.com/luisjuarez099/FreeBSD-raspberriPi/assets/83623972/4a878036-e6a7-4ff8-919b-095f81ac71fe)
+
+
+## Uso de SCP para la transferencia de archvios o carpetas.
+
+SCP (copia segura) es una utilidad de línea de comandos que permite copiar archivos y directorios de manera segura entre dos ubicaciones.
+
+
+#### Archivo Local al servidor
+Llevaremos la practica de un archivo local al usuario remoto y viceversa.
+
+Este es el orden que debemos de usar para enviar los archivos 
+
+```bash
+scp archivo_local.txt usuario_remoto@direccion_servidor_remoto:directorio_destino
+```
+![screens](https://github.com/luisjuarez099/FreeBSD-raspberriPi/assets/83623972/9cfe17ae-f9c2-470d-b6d8-72c4878af871)
+
+Identificamos el archivo que deseamos enviar a nuestro equipo remoto, en este caso nuestro archvio en un .txt pero puede ser cualquier extension.
+
+
+![scplar](https://github.com/luisjuarez099/FreeBSD-raspberriPi/assets/83623972/a7ab59e3-a036-4168-8397-5b863eb411c6)
+
+
+Es asi que enviamos nuestro archvio de local a un equipo remoto, ahora, lo podemos hacer de maner viceversa
+
