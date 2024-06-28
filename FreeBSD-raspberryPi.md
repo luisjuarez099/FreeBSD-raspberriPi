@@ -1,11 +1,11 @@
 ﻿
 
-# Instalamos FreeBSD en raspberry Pi 
+# Instalamos FreeBSD en raspberry Pi  :smiling_imp: :strawberry: 
 
 ![image-removebg-preview(6)](https://github.com/luisjuarez099/FreeBSD-raspberriPi/assets/83623972/4c2472e1-2dc5-45a1-a855-5028a58f3621)
 
 
-## Ingresa a este link
+## Ingresa a este link 
 
 Busca la version de tu raspberry pi, en mi caso es la version **Pi 3 model B V.2**
 > https://wiki.freebsd.org/arm/Raspberry%20Pi
@@ -14,12 +14,12 @@ Busca la version de tu raspberry pi, en mi caso es la version **Pi 3 model B V.2
 ![version-rasp](https://github.com/luisjuarez099/FreeBSD-raspberriPi/assets/83623972/fce280d0-6d2f-45fb-8b37-5a5f156c0bdc)
 
 En mi caso despues de haber descargado la Imagen 
+
 ![descarga-archvio](https://github.com/luisjuarez099/FreeBSD-raspberriPi/assets/83623972/6aa21def-1f5e-4232-a10d-69c36fae26ea)
 
 ### Vamos a hacer el formateo de una SD para montar el sistema operativo FreBSD
 
 1. Eligimos la version de nuestra raspberry pi
-
 
 ![imagen-rasp](https://github.com/luisjuarez099/FreeBSD-raspberriPi/assets/83623972/b7cfc121-733c-4fe9-afc1-9c5f4c10e220)
 
@@ -35,7 +35,7 @@ En mi caso despues de haber descargado la Imagen
 
 <hr>
 
-### Conexiones 
+### Conexiones :accessibility: 
 
 Material: Cable de red, HDMI, un alimentador para la raspberry pi y Teclado.
 
@@ -76,7 +76,7 @@ Al finalizar hemos de poder descargar paquetes, como prueba ejecuta los siguient
 ```bash
 pkg install cowsay
 ```
-Al final la instalacion ejecuta 
+Al final la instalacion ejecuta 📄
 
 ```bash
 cowsay "Hola desde freebsd"
@@ -85,7 +85,7 @@ Resultado:
 
 ![cowsay](https://github.com/luisjuarez099/FreeBSD-raspberriPi/assets/83623972/1f1bf579-9e54-46a6-aad3-30f28ff1bac7)
 
-## Configuracion de usuario usando sudo.
+## Configuracion de usuario usando sudo. 👩‍💻
 
 > [!NOTE]
 > **sudo** es una herramienta muy valiosa para la administración segura y eficiente de sistemas. Proporciona una capa adicional de seguridad y control que puede ser muy beneficiosa, especialmente en entornos multiusuario o cuando varias personas necesitan realizar tareas administrativas.
@@ -96,8 +96,10 @@ Vamos a ejecutar este comando:
 adduser
 ```
 Estas son las configuraciones que se llevan acabo para poder crear usuarios y darles permiso de [wheel](http://www.freebsdwiki.net/index.php/Wheel)
+Yo user el nombre de ```fer``` pero como ejemplo uso el nombre de ```miprueba``` que tu puede elegir el de tu agrado :smile: 
 
-![adduser](https://github.com/luisjuarez099/FreeBSD-raspberriPi/assets/83623972/4cd4cb4f-43dc-47ce-b06d-709fdc141e8c)
+![adduser2](https://github.com/luisjuarez099/FreeBSD-raspberriPi/assets/83623972/db6f638b-f8ec-4219-a08f-60a13e000d6b)
+
 
 
 agregado el usuario vamos a darle los persmiso de super-user, para eso nos cambiamos a modo root 
@@ -118,7 +120,7 @@ Vamos a editar el archivo ```sudoers``` por medio de ```visudo``` para configura
 ```bash
 visudo
 ```
-Indica los root privilegios, siendo diferentes dependiendo como van procediendo las lineas 
+Indica los root privilegios, siendo diferentes dependiendo como van procediendo las lineas 🌻
 
 ![root-priv](https://github.com/luisjuarez099/FreeBSD-raspberriPi/assets/83623972/bc8ddff9-14b6-49e5-9527-f8de7f07d84c)
 
@@ -144,7 +146,7 @@ Excelente! Siguiendo estos pasos, deberías poder instalar y configurar sudo en 
 <hr>
 
 
-## Instalar mariadbxxx-server en FreeBSD
+## Instalar mariadbxxx-server en FreeBSD 🙊
 
 ### Buscar maraidb para la instalacion: 
 Buscaremos por medio del los paquetes (pkg)  para instalar mariadbxxx-server
@@ -154,7 +156,7 @@ Buscaremos por medio del los paquetes (pkg)  para instalar mariadbxxx-server
 ```
 ![marisb-search](https://github.com/luisjuarez099/FreeBSD-raspberriPi/assets/83623972/7d13afea-4c8c-4395-b291-47d8df88d673)
 
-### Instalacion 
+### Instalacion  :point_down: 
 Una vez visto los paquetes disponibles lo que vamos a hacer es seleccionar ```mariadb105-server``` esta es la version que queremos instalar 
 para llevar acabo la instalacion por medio del administrador de paquetes ```pkg``` para esto vamos a ejecutar el comando:
 
@@ -166,7 +168,7 @@ Aguardamos un momento a que se instale...Al finalizar muestra un mensaje como es
 ![mariadb-install](https://github.com/luisjuarez099/FreeBSD-raspberriPi/assets/83623972/94e637b5-c70c-49d4-98a1-37d418159680)
 
 
-### Permisos a mysql
+### Permisos a mysql :dolphin: 
 El comando ```chown mysql /var/run/mysql``` se utiliza para cambiar el propietario del directorio /var/run/mysql al usuario mysql.
 
 Cuando ejecutas chown mysql /var/run/mysql, estás asignando el control del directorio /var/run/mysql al usuario mysql. Esto es útil en entornos donde es importante que el servidor MySQL tenga acceso y control sobre sus propios archivos temporales, como los sockets utilizados para la comunicación interna.
@@ -176,7 +178,7 @@ Este es el comando que vamos a ejecutar
   chown mysql /var/run/mysql
 ```
 
-### Mysql a boot del sistema.
+### Mysql a boot del sistema. :dolphin: 
 
 Al ejecutar ```sudo sysrc mysql_enable=YES```, el sistema modificará automáticamente el archivo ```/etc/rc.conf``` para asegurarse de que MySQL se inicie automáticamente cada vez que el sistema se inicie o se reinicie. Esto simplifica la administración del servicio, ya que no es necesario iniciar MySQL manualmente después de cada reinicio del sistema.
 
@@ -186,7 +188,7 @@ Comando:
 sudo sysrc mysql_enable=yes
 ```
 
-### Iniciamos el sistema
+### Iniciamos el sistema :computer: 
 
 Ya para arrancar el sistema, lo que vamos a hace es correr el siguinte comando 
 
@@ -201,7 +203,7 @@ service mysql-server status
 ![mariadb-pid](https://github.com/luisjuarez099/FreeBSD-raspberriPi/assets/83623972/a19e3756-896f-4830-acec-729497b44d4c)
 
 
-### Comprobamos que exista el acceso a local host 
+### Comprobamos que exista el acceso a local host  :computer:
 
 ```bash
 sockstat -4 -6 | grep 3306
@@ -209,7 +211,7 @@ sockstat -4 -6 | grep 3306
 ![maria-localhost](https://github.com/luisjuarez099/FreeBSD-raspberriPi/assets/83623972/cf31e521-1853-40c1-94c5-f6d85d0ccf9d)
 
 
-### Ingresamos a mysql (mariadb) 
+### Ingresamos a mysql (mariadb) :dolphin: 
 
 ```bash
 sudo mysql
