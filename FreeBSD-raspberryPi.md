@@ -243,3 +243,151 @@ Identificamos el archivo que deseamos enviar a nuestro equipo remoto, en este ca
 
 Es asi que enviamos nuestro archvio de local a un equipo remoto, ahora, lo podemos hacer de maner viceversa
 
+
+# Asigancio de grupos y permisos en archivos como en MYSQL.
+
+**¿Qué son los permisos en Linux?**
+
+El **Propietario(owner)** es aquel que gestiona, crea archivos o carpetas y los modifica a su gusto, siempre en su directorio de trabajo HOME. **Grupos** hace alusión a un conjunto definido de usuarios mientras que **Otros** incluye cualquier usuario que no esté en grupo ni tampoco sea el propietario como tal.
+
+Los permisos en Linux rigen a estos tres grupos, dándoles o privándoles de diferentes acciones sobre un archivo o una carpeta determinada. En concreto, existen tres tipos de permisos en Linux con los cuales son **lectura (r)**, **escritura (w)** y **ejecucion (x)**, de los cuales tiene un formato *octal* .
+
+![permisos](https://github.com/luisjuarez099/FreeBSD-raspberriPi/assets/83623972/35a1a9d5-8637-4b4c-86ec-b32114ee4ff7)
+
+para mas informacion conuslta [freebsd-permisos](https://docs.freebsd.org/en/books/handbook/basics/#permissions)
+
+## AGREGAR GRUPOS 
+
+
+Creamos un nuevo grupo, en nuestro caso lo llamamos `backend_bandits` , para esto creamos un nuevo grupo con el comando:
+
+```bash
+sudo pw groupadd backend_bandits
+```
+
+La manera en como se organiza la info. de los grupos es de esta manera
+
+```
+group_name:*:GID:user_list
+```
+
+- group_name: El nombre del grupo.
+- *: El campo de la contraseña del grupo, que generalmente se deja como * ya que los grupos no suelen usar contraseñas.
+- GID: El Group ID, un identificador único para el grupo.
+- user_list: Una lista de usuarios que pertenecen a este grupo, separados por comas.
+
+  
+Comprobamos que se haya creado con el comando 
+
+```bash
+sudo cat /etc/group
+```
+
+![group-add](https://github.com/luisjuarez099/FreeBSD-raspberriPi/assets/83623972/16a469a9-afc2-4f9d-959a-6714bbaf27ab)
+
+
+
+## Agregar usuarios al grupo
+
+>[!IMPORTANT]
+>Debes de crear a tus usuarios que van a paertenece a ese grupo.
+>Pasos pasados veiamos como crear usuarios, en este caso NO LE ASIGNES PERMISOS DE SUDO, puesto que no es buena practica agegarles permisos de administrados
+>a cada usuario creado.
+
+Suponiendo que ya tienes a tus usarios creados es momento de agregarlos al grupo creado llamado ```backend_bandits```
+
+Usamos el siguiente comando: 
+
+```bash
+ sudo pw groupmod backend_bandits -m yaser,antonio,richard
+```
+
+-  sudo: Ejecuta el comando como superusuario.
+- pw: Usa la herramienta de administración de usuarios y grupos.
+- groupmod: Modifica un grupo existente.
+- backend_bandits: El nombre del grupo que estás modificando.
+- -m: Indica que estás añadiendo miembros al grupo.
+- yaser,antonio,richard: Los nombres de usuario que se añaden al grupo.
+
+Volvemos a comprobar que se agegaron de manera correcta los usuarios al grupo y veamos a los usarios que pertenecen al grupo
+:
+
+```bash
+sudo pw groupshow backend_bandits
+```
+
+
+![members-group](https://github.com/luisjuarez099/FreeBSD-raspberriPi/assets/83623972/acb79b15-f450-4764-a8cc-5572d41afa3e)
+
+
+## Asignar usuarios y permisos al archido de MYSQL/db_unedl
+
+Todos los archivos y directorios dentro de /var/db/mysql/db_unedl/ tendrán root como propietario y backend_bandits como grupo
+
+```bash
+sudo chown -R root:backend_bandits /var/db/mysql/db_unedl/
+```
+
+- sudo: Ejecuta el comando con privilegios de superusuario.
+- chown: Comando para cambiar el propietario y el grupo de archivos o directorios.
+- -R: Realiza el cambio de manera recursiva, aplicándose a todos los archivos y subdirectorios dentro del directorio especificado.
+- root:backend_bandits: Cambia el propietario a root y el grupo a backend_bandits.
+
+    - root: El nuevo propietario.
+    - backend_bandits: El nuevo grupo.
+
+- /var/db/mysql/db_unedl/: El directorio objetivo en el cual se aplicará el cambio de propiedad y grupo.
+
+### Permisos 
+
+Esto asegura que solo el propietario y los miembros del grupo ```backend_bandits``` puedan leer, escribir y ejecutar en el directorio de la base de datos.
+
+```bash
+sudo chmod 770 /var/db/mydatabase
+```
+> ![NOTE]
+> Yo como PROPIERTARIO **root** puedo crear usuarios y asignarle permisos en la BD de datos.
+
+
+Por ahora richard  **no tiene acceso a la bd ```db_unedl```
+
+![no-db-user](https://github.com/luisjuarez099/FreeBSD-raspberriPi/assets/83623972/fcade113-82d1-4aa7-b7b6-b7ae28f41e59)
+
+
+### Dando permisos en la bd
+
+1. Creamos usuario (en caso no exista):
+
+```sql
+CREATE USER 'nuevo_usuario'@'localhost' IDENTIFIED BY 'tu_contraseña';
+```
+
+![create-user-sql](https://github.com/luisjuarez099/FreeBSD-raspberriPi/assets/83623972/4045c1c8-446d-4626-bd5e-b9162e727466)
+
+2. Otrogamos permisos al usuario,en mi caso solo quiero que haga SELECT, INSERT y UPDATE.
+
+   ```sql
+   GRANT SELECT, INSERT, UPDATE ON nombre_base_de_datos.* TO 'nuevo_usuario'@'localhost';
+   ```
+
+   ![privilegies](https://github.com/luisjuarez099/FreeBSD-raspberriPi/assets/83623972/ffdb1dea-aa60-430e-bcd2-ee0fbd754f05)
+
+
+Verificamos que el usuario ya tengo acceso a la bd llamada ```db_unedl```
+
+para conectarnos usamos el comando
+
+```bash
+mysql -u richard -p
+```
+ y agregaos la contrasena que le asignamos al usuario.
+
+ 3. Verificamos que la tenga la base de datos que nosotros le asignamos.
+
+    ![user-db](https://github.com/luisjuarez099/FreeBSD-raspberriPi/assets/83623972/ae92128d-4f2f-4eb0-a047-93e8916d6d3e)
+
+
+4. Comprobamos que los permisos de otorgaron correctamente, puesto que richard no puede eliminar.
+
+![delete](https://github.com/luisjuarez099/FreeBSD-raspberriPi/assets/83623972/9bbe5fe3-38ee-4651-844b-50f2ee1c1c81)
+
