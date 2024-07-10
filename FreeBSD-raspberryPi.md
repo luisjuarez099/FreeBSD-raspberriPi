@@ -145,6 +145,31 @@ Excelente! Siguiendo estos pasos, deberías poder instalar y configurar sudo en 
 
 <hr>
 
+## Install NGINX 
+
+Nginx [engine x] es un servidor HTTP, proxy inverso y servidor proxy de correo escrito por Igor Sysoev. Es un servidor web ligero, licenciado bajo una licencia similar a BSD. Es el servidor web de más rápido crecimiento y uno de los más populares. 
+
+Instalamos por medio del paquete pkg
+
+```bash
+pkg install nginx
+```
+
+El comando sysrc nginx_enable="YES" se utiliza en sistemas FreeBSD para configurar el sistema de inicio para que habilite y arranque el servicio Nginx automáticamente cada vez que el sistema se inicie.
+
+```bash
+sysrc nginx_enable="YES"
+```
+
+Iniciamos el sistema 
+
+```bash
+service nginx start
+```
+
+![nginx-ok](https://github.com/luisjuarez099/FreeBSD-raspberriPi/assets/83623972/b4d295ed-8ef9-4c93-96b5-3142dce7e761)
+
+Terminado 
 
 ## Instalar mariadbxxx-server en FreeBSD 🙊
 
@@ -169,6 +194,11 @@ Aguardamos un momento a que se instale...Al finalizar muestra un mensaje como es
 
 
 ### Permisos a mysql :dolphin: 
+
+>[!IMPORTANT]
+>Existen casos que al instalar no se crea la carpeta, en ese caso vamoa a agregar al arhcivo ```/ect/rc.conf``` la siguiente linea ```mysql_enable="YES"```.
+>Te saltas al paso para iniciar el sistema. :) 
+
 El comando ```chown mysql /var/run/mysql``` se utiliza para cambiar el propietario del directorio /var/run/mysql al usuario mysql.
 
 Cuando ejecutas chown mysql /var/run/mysql, estás asignando el control del directorio /var/run/mysql al usuario mysql. Esto es útil en entornos donde es importante que el servidor MySQL tenga acceso y control sobre sus propios archivos temporales, como los sockets utilizados para la comunicación interna.
